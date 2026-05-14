@@ -6,6 +6,10 @@ Static project page for:
 
 The page is implemented as a no-build HTML/CSS/JS site and is ready for GitHub Pages.
 
+Project page: <https://chloeqxq.github.io/LaWM_ProjectPage/>
+
+Code repository: <https://github.com/chloeqxq/LaWM>
+
 ## Files
 
 ```text
@@ -13,11 +17,12 @@ The page is implemented as a no-build HTML/CSS/JS site and is ready for GitHub P
 ├── index.html
 ├── LaWM.pdf
 ├── static/
-│   ├── dataset/          # RGB/depth GIFs and GLB meshes
+│   ├── css/              # Page styles
 │   ├── figures/          # Intro, visual results, and ablation figures
-│   ├── logo/             # Lab and link icons
-│   ├── suds_training/    # Stereo image pairs
-│   └── uw_sim/           # Interactive underwater simulation layers
+│   ├── js/               # Page interactions
+│   ├── logo/             # Page, link, and easter-egg logos
+│   ├── partials/         # Archived optional modules
+│   └── videos/           # Physics-clean rollout demos
 └── README.md
 ```
 
@@ -34,12 +39,9 @@ Open `http://localhost:8000/`.
 
 - Clean LaWM hero section with paper links.
 - Interactive method stepper for the latent variational integrator.
-- Canvas demo comparing least-action rollouts with unconstrained drift.
-- Intro figure, experiment visualizations, ablation diagnostics, and results tables.
-- RGB/depth GIF scene tabs.
-- GLB mesh previews via `model-viewer`.
-- Underwater simulation layer mixer.
-- Stereo left/right comparison slider.
+- Canvas orb interaction with a Michigan easter egg.
+- Intro figure, physics-clean video demos, qualitative strips, ablation diagnostics, and results tables.
+- Paper, arXiv, and code repository links.
 
 ## Deployment
 
