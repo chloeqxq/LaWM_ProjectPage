@@ -1,0 +1,326 @@
+/*
+ * Archived Trajectory Intuition styles.
+ * This file is not loaded by default; the link in index.html is commented out.
+ */
+
+.method-showcase {
+    position: relative;
+    overflow: hidden;
+    margin: 22px auto 30px;
+    padding: 16px;
+    border: 1px solid rgba(203, 213, 225, 0.78);
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at 15% 15%, rgba(255, 226, 145, 0.1), transparent 34%),
+        radial-gradient(circle at 85% 12%, rgba(142, 203, 255, 0.12), transparent 36%),
+        rgba(255, 255, 255, 0.72);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.055);
+    backdrop-filter: blur(10px);
+}
+
+.method-showcase::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    z-index: -1;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(248, 250, 252, 0.26));
+}
+
+.method-showcase-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+.method-showcase-title {
+    margin: 0;
+    color: #0f172a;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+}
+
+.method-showcase-header p {
+    margin: 4px 0 0;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.method-showcase-copy {
+    max-width: 330px;
+    margin: 0;
+    color: #94a3b8;
+    font-size: 12px;
+    text-align: right;
+}
+
+.trajectory-showcase {
+    max-width: 820px;
+    background:
+        radial-gradient(circle at 14% 12%, rgba(255, 226, 145, 0.08), transparent 32%),
+        radial-gradient(circle at 86% 10%, rgba(142, 203, 255, 0.1), transparent 34%),
+        rgba(255, 255, 255, 0.82);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+}
+
+.trajectory-showcase .method-showcase-header {
+    display: block;
+}
+
+.trajectory-showcase .method-showcase-copy {
+    max-width: none;
+    margin-top: 4px;
+    text-align: left;
+}
+
+.trajectory-scrubber {
+    display: grid;
+    gap: 10px;
+}
+
+.trajectory-stage {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 21 / 10;
+    border-radius: 16px;
+    background: #f8fafc;
+    box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.86);
+}
+
+.trajectory-bg,
+.trajectory-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.trajectory-bg {
+    object-fit: cover;
+    opacity: 0.86;
+    filter: saturate(0.9) contrast(0.95) brightness(1.04);
+}
+
+.trajectory-svg {
+    pointer-events: none;
+}
+
+.trajectory-shadow {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 7;
+    opacity: 0.14;
+    filter: blur(0.4px);
+}
+
+.trajectory-shadow-physical {
+    stroke: rgba(49, 95, 146, 0.32);
+}
+
+.trajectory-shadow-baseline {
+    stroke: rgba(226, 85, 85, 0.22);
+}
+
+.trajectory-path {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.trajectory-ground {
+    stroke: rgba(100, 116, 139, 0.54);
+    stroke-width: 3.8;
+    stroke-dasharray: 6 7;
+}
+
+.trajectory-ours {
+    stroke: #315f92;
+    stroke-width: 2.7;
+    filter: drop-shadow(0 3px 6px rgba(49, 95, 146, 0.2));
+}
+
+.trajectory-baseline {
+    stroke: #e25555;
+    stroke-width: 2.05;
+    stroke-dasharray: 7 5;
+    filter: drop-shadow(0 3px 6px rgba(226, 85, 85, 0.12));
+}
+
+.trajectory-dot {
+    vector-effect: non-scaling-stroke;
+    stroke: #ffffff;
+    stroke-width: 0.75;
+    filter: drop-shadow(0 3px 7px rgba(15, 23, 42, 0.14));
+}
+
+.trajectory-dot.start {
+    fill: #94a3b8;
+}
+
+.trajectory-dot.ours-dot {
+    fill: #315f92;
+}
+
+.trajectory-dot.baseline-dot {
+    fill: #e25555;
+}
+
+.trajectory-legend {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    display: grid;
+    gap: 7px;
+    padding: 9px 10px;
+    border: 1px solid rgba(226, 232, 240, 0.76);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.66);
+    color: #334155;
+    font-size: 11px;
+    font-weight: 800;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.055);
+    backdrop-filter: blur(10px);
+}
+
+.trajectory-legend span {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    white-space: nowrap;
+}
+
+.legend-line {
+    width: 24px;
+    height: 3px;
+    border-radius: 999px;
+}
+
+.legend-line.ground {
+    border-top: 2px dashed rgba(100, 116, 139, 0.6);
+}
+
+.legend-line.ours {
+    background: #315f92;
+}
+
+.legend-line.baseline {
+    background: repeating-linear-gradient(90deg, #e25555 0 7px, transparent 7px 11px);
+}
+
+.trajectory-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 0 2px 2px;
+}
+
+.trajectory-range {
+    --progress: 44%;
+    width: 100%;
+    height: 24px;
+    margin: 0;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.trajectory-range:focus {
+    outline: none;
+}
+
+.trajectory-range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background:
+        linear-gradient(90deg, #315f92 0 var(--progress), #e2e8f0 var(--progress) 100%);
+    box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+.trajectory-range::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    margin-top: -6px;
+    appearance: none;
+    border: 3px solid #ffffff;
+    border-radius: 999px;
+    background: #315f92;
+    box-shadow: 0 6px 14px rgba(49, 95, 146, 0.2);
+}
+
+.trajectory-range::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: #e2e8f0;
+}
+
+.trajectory-range::-moz-range-progress {
+    height: 6px;
+    border-radius: 999px;
+    background: #315f92;
+}
+
+.trajectory-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #ffffff;
+    border-radius: 999px;
+    background: #315f92;
+    box-shadow: 0 6px 14px rgba(49, 95, 146, 0.2);
+}
+
+.trajectory-step-readout {
+    min-width: 126px;
+    padding: 7px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #334155;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 11px;
+    font-weight: 800;
+    text-align: center;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.045);
+}
+
+@media (max-width: 820px) {
+    .method-showcase {
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .method-showcase-header {
+        display: block;
+    }
+
+    .method-showcase-copy {
+        margin-top: 8px;
+        text-align: left;
+    }
+
+    .trajectory-legend {
+        left: 12px;
+        right: auto;
+        top: 12px;
+        gap: 7px;
+        padding: 10px;
+        font-size: 11px;
+    }
+
+    .trajectory-controls {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .trajectory-step-readout {
+        width: fit-content;
+        min-width: 0;
+        justify-self: end;
+    }
+}

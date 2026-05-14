@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaWM: Least Action World Models</title>
+    <link rel="icon" type="image/png" href="static/logo/LaWM_logo.png">
+    <link rel="stylesheet" href="static/css/styles.css">
+    <!-- Trajectory Intuition is archived and disabled. -->
+    <!-- <link rel="stylesheet" href="static/css/trajectory-intuition.css"> -->
+
+</head>
+<body>
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+    <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
+
+    <nav class="floating-nav" id="floating-nav">
+        <div class="nav-menu">
+            <a href="#overview-section" class="nav-link" data-section="overview-section">Overview</a>
+            <a href="#method-section" class="nav-link" data-section="method-section">Method</a>
+            <a href="#visuals-section" class="nav-link" data-section="visuals-section">Visuals</a>
+            <a href="#results-section" class="nav-link" data-section="results-section">Results</a>
+            <a href="#ablation-section" class="nav-link" data-section="ablation-section">Ablation</a>
+            <a href="#citation-section" class="nav-link" data-section="citation-section">Citation</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>
+                <span class="title-lockup">
+                    <img class="hero-logo" src="static/logo/LaWM_logo.png" alt="" aria-hidden="true">
+                    <span class="title-main" aria-label="LaWM">
+                        <span class="title-char" aria-hidden="true">L</span><span class="title-char" aria-hidden="true">a</span><span class="title-char" aria-hidden="true">W</span><span class="title-char" aria-hidden="true">M</span>
+                    </span>
+                </span>
+                <span class="title-sub" aria-label="Least Action World Models for Long-Horizon Physical Consistency from Visual Observations">
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 0;">L</span><span class="subtitle-char" style="--i: 1;">e</span><span class="subtitle-char" style="--i: 2;">a</span><span class="subtitle-char" style="--i: 3;">s</span><span class="subtitle-char" style="--i: 4;">t</span></span>
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 5;">A</span><span class="subtitle-char" style="--i: 6;">c</span><span class="subtitle-char" style="--i: 7;">t</span><span class="subtitle-char" style="--i: 8;">i</span><span class="subtitle-char" style="--i: 9;">o</span><span class="subtitle-char" style="--i: 10;">n</span></span>
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 11;">W</span><span class="subtitle-char" style="--i: 12;">o</span><span class="subtitle-char" style="--i: 13;">r</span><span class="subtitle-char" style="--i: 14;">l</span><span class="subtitle-char" style="--i: 15;">d</span></span>
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 16;">M</span><span class="subtitle-char" style="--i: 17;">o</span><span class="subtitle-char" style="--i: 18;">d</span><span class="subtitle-char" style="--i: 19;">e</span><span class="subtitle-char" style="--i: 20;">l</span><span class="subtitle-char" style="--i: 21;">s</span></span>
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 22;">f</span><span class="subtitle-char" style="--i: 23;">o</span><span class="subtitle-char" style="--i: 24;">r</span></span>
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 25;">L</span><span class="subtitle-char" style="--i: 26;">o</span><span class="subtitle-char" style="--i: 27;">n</span><span class="subtitle-char" style="--i: 28;">g</span><span class="subtitle-char" style="--i: 29;">-</span><span class="subtitle-char" style="--i: 30;">H</span><span class="subtitle-char" style="--i: 31;">o</span><span class="subtitle-char" style="--i: 32;">r</span><span class="subtitle-char" style="--i: 33;">i</span><span class="subtitle-char" style="--i: 34;">z</span><span class="subtitle-char" style="--i: 35;">o</span><span class="subtitle-char" style="--i: 36;">n</span></span>
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 37;">P</span><span class="subtitle-char" style="--i: 38;">h</span><span class="subtitle-char" style="--i: 39;">y</span><span class="subtitle-char" style="--i: 40;">s</span><span class="subtitle-char" style="--i: 41;">i</span><span class="subtitle-char" style="--i: 42;">c</span><span class="subtitle-char" style="--i: 43;">a</span><span class="subtitle-char" style="--i: 44;">l</span></span>
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 45;">C</span><span class="subtitle-char" style="--i: 46;">o</span><span class="subtitle-char" style="--i: 47;">n</span><span class="subtitle-char" style="--i: 48;">s</span><span class="subtitle-char" style="--i: 49;">i</span><span class="subtitle-char" style="--i: 50;">s</span><span class="subtitle-char" style="--i: 51;">t</span><span class="subtitle-char" style="--i: 52;">e</span><span class="subtitle-char" style="--i: 53;">n</span><span class="subtitle-char" style="--i: 54;">c</span><span class="subtitle-char" style="--i: 55;">y</span></span>
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 56;">f</span><span class="subtitle-char" style="--i: 57;">r</span><span class="subtitle-char" style="--i: 58;">o</span><span class="subtitle-char" style="--i: 59;">m</span></span>
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 60;">V</span><span class="subtitle-char" style="--i: 61;">i</span><span class="subtitle-char" style="--i: 62;">s</span><span class="subtitle-char" style="--i: 63;">u</span><span class="subtitle-char" style="--i: 64;">a</span><span class="subtitle-char" style="--i: 65;">l</span></span>
+                    <span class="subtitle-word" aria-hidden="true"><span class="subtitle-char" style="--i: 66;">O</span><span class="subtitle-char" style="--i: 67;">b</span><span class="subtitle-char" style="--i: 68;">s</span><span class="subtitle-char" style="--i: 69;">e</span><span class="subtitle-char" style="--i: 70;">r</span><span class="subtitle-char" style="--i: 71;">v</span><span class="subtitle-char" style="--i: 72;">a</span><span class="subtitle-char" style="--i: 73;">t</span><span class="subtitle-char" style="--i: 74;">i</span><span class="subtitle-char" style="--i: 75;">o</span><span class="subtitle-char" style="--i: 76;">n</span><span class="subtitle-char" style="--i: 77;">s</span></span>
+                </span>
+            </h1>
+
+            <div class="authors">
+                <a href="https://scholar.google.com/citations?hl=en&user=lqyNeO4AAAAJ&view_op=list_works&sortby=pubdate" class="author" target="_blank" rel="noopener">Qixin Xiao</a>
+                <span class="author">Maani Ghaffari</span>
+            </div>
+            <p class="affiliation">University of Michigan</p>
+            <p class="email">{qxiaocs, maanigj}@umich.edu</p>
+
+            <div class="paper-links">
+                <a href="LaWM.pdf" class="paper-link" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm0 2.5L17.5 8H14zM8 13h8v2H8zm0 4h8v2H8zm0-8h4v2H8z"/></svg>
+                    Paper
+                </a>
+                <a href="#" class="paper-link disabled" aria-disabled="true">
+                    <img src="static/logo/github.svg" alt="GitHub">
+                    Code Coming Soon
+                </a>
+                <a href="http://arxiv.org/abs/2605.08279" class="paper-link" target="_blank" rel="noopener">
+                    <img src="static/logo/arXiv.png" alt="arXiv">
+                    arXiv
+                </a>
+            </div>
+
+            <div class="logos">
+                <img src="static/logo/curly.png" alt="CURLY Lab Logo">
+                <img src="static/logo/informal.png" alt="University of Michigan Robotics Logo">
+            </div>
+        </header>
+
+        <div class="section" id="overview-section">
+            <h2>Abstract & Overview</h2>
+            <div class="overview-copy">
+                <p>
+                    Learning predictive world models from visual observations is a core problem in embodied AI, but existing latent world models often rely on unconstrained neural transitions, making long-horizon rollouts prone to compounding error, energy drift, and inconsistent futures. We propose <strong>Least Action World Models (LaWM)</strong>, a latent world-modeling framework that operationalizes the <strong>Principle of Least Action</strong> in learned visual latent space: future rollouts are governed by a learned <strong>Latent Lagrangian</strong> action functional rather than only an unconstrained transition predictor. At its core is a <strong>Latent variational integrator</strong>: LaWM encodes observations into learned generalized coordinates, learns a discrete Latent Lagrangian, constructs a discrete action functional, and advances prediction by solving the corresponding discrete integration condition. This makes physical structure the latent transition rule itself, giving LaWM a structure-preserving bias for long-horizon visual prediction across physics-clean and embodied robot interaction benchmarks.
+                </p>
+            </div>
+
+            <div class="figure-section">
+                <img class="wide-figure" src="static/figures/Intro-LaWM.png" alt="Overview of LaWM">
+                <p class="image-credit">Figure 1: Observations are encoded into generalized coordinates, where a learned discrete Lagrangian defines a DEL residual. The next coordinate is obtained by solving the DEL condition and is then decoded into future observations.</p>
+            </div>
+
+            <div class="highlight-grid">
+                <div class="highlight-card">
+                    <h3>Least-Action World Model</h3>
+                    <p>Future rollouts are governed by a learned Lagrangian action functional.</p>
+                </div>
+                <div class="highlight-card">
+                    <h3>Latent Variational Integrator</h3>
+                    <p>The DEL condition defines the transition rule rather than only regularizing a completed trajectory.</p>
+                </div>
+                <div class="highlight-card">
+                    <h3>Long-Horizon Consistency</h3>
+                    <p>LaWM improves physical invariance, background consistency, smoothness, appearance, and geometry metrics.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="method-section">
+            <h2>Method</h2>
+            <div class="method-intro">
+                <div class="method-kicker">Latent Variational Rollout</div>
+                <p>
+                    LaWM keeps the familiar visual world-model interface, but replaces the unconstrained latent transition with a structure-preserving rollout rule induced by a learned Latent Lagrangian.
+                </p>
+            </div>
+
+            <!-- Trajectory Intuition removed from the page. Archived module:
+                 static/partials/trajectory-intuition.html -->
+
+            <div class="method-stepper-wrap">
+                <div class="method-pipeline-heading">
+                    <span>LaWM Pipeline</span>
+                    <p>Five stages from visual observation to physically consistent rollout.</p>
+                </div>
+                <div class="method-stepper" role="tablist" aria-label="LaWM method pipeline">
+                    <button class="method-step active" type="button" role="tab" aria-selected="true" data-step="0">
+                        <span class="step-index">01</span>
+                        <span class="step-title">Encode Observations</span>
+                    </button>
+                    <button class="method-step" type="button" role="tab" aria-selected="false" data-step="1">
+                        <span class="step-index">02</span>
+                        <span class="step-title">Learn Ld</span>
+                    </button>
+                    <button class="method-step" type="button" role="tab" aria-selected="false" data-step="2">
+                        <span class="step-index">03</span>
+                        <span class="step-title">Construct Action</span>
+                    </button>
+                    <button class="method-step" type="button" role="tab" aria-selected="false" data-step="3">
+                        <span class="step-index">04</span>
+                        <span class="step-title">Solve DEL</span>
+                    </button>
+                    <button class="method-step" type="button" role="tab" aria-selected="false" data-step="4">
+                        <span class="step-index">05</span>
+                        <span class="step-title">Decode Rollout</span>
+                    </button>
+                </div>
+
+                <div class="method-detail-card" id="method-detail-card" role="tabpanel" aria-live="polite">
+                    <div class="method-detail-eyebrow" id="method-detail-eyebrow">Step 01</div>
+                    <h3 class="method-detail-title" id="method-detail-title">Encode Observations</h3>
+                    <p class="method-detail-text" id="method-detail-text">Visual frames are mapped into learned generalized coordinates, giving the model compact coordinates where dynamics can be organized.</p>
+
+                    <div class="method-math-details" aria-label="Mathematical details">
+                        <div class="method-math-title">Mathematical Details</div>
+                        <div class="math-formulas" id="method-math-formulas">
+                            <p id="method-math-intro">Each observation is encoded into a generalized coordinate where the later variational dynamics operate.</p>
+                            <div class="formula-list" id="method-formula-rows">
+                                <div class="formula-row">
+                                    <span class="formula-label">Generalized coordinate</span>
+                                    <div class="formula">q<sub>k</sub> = E<sub>&phi;</sub>(x<sub>k</sub>)</div>
+                                </div>
+                            </div>
+                            <div class="formula-note" id="method-formula-note">The encoder supplies compact generalized coordinates for the downstream least-action rollout.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="visuals-section">
+            <h2>Physics-Clean Visualizations</h2>
+            <p>
+                The physics-clean benchmark covers canonical dynamical patterns used to test whether a model preserves motion-specific physical regularities during long-horizon prediction. These qualitative strips correspond to the twelve motion families described in the paper.
+            </p>
+
+            <h3>Motion Demos</h3>
+            <p>
+                Short video rollouts show the canonical dynamics used by the physics-clean benchmark.
+            </p>
+            <div class="video-grid" aria-label="Physics-clean video demonstrations">
+                <figure class="media-card video-card">
+                    <video src="static/videos/3d.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">3D Movement</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/acceleration.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Acceleration</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/deceleration.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Deceleration</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/parabolic_motion.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Parabolic Motion</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/circular_motion.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Circular Motion</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/para_rotation.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Parabolic + Rotation</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/damped.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Damped Oscillation</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/size_changing.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Size Changing</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/deformation.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Deformation</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/uniform.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Uniform Motion</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/slope.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Slope Sliding</figcaption>
+                </figure>
+                <figure class="media-card video-card">
+                    <video src="static/videos/rotation.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                    <figcaption class="media-caption">Rotation</figcaption>
+                </figure>
+            </div>
+
+            <details class="strip-details">
+                <summary>View Paper Qualitative Strips</summary>
+                <div class="vis-grid">
+                    <div class="visual-group-title">Kinematics and Translational Dynamics</div>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/uniform_motion.png?v=20260513-2" alt="Uniform motion visualization">
+                        <figcaption class="media-caption">Uniform Motion</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/acceleration.png?v=20260513-2" alt="Acceleration visualization">
+                        <figcaption class="media-caption">Acceleration</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/deceleration.png?v=20260513-2" alt="Deceleration visualization">
+                        <figcaption class="media-caption">Deceleration</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/parabolic_motion.png?v=20260513-2" alt="Parabolic motion visualization">
+                        <figcaption class="media-caption">Parabolic Motion</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/3d_movement.png?v=20260513-2" alt="3D movement visualization">
+                        <figcaption class="media-caption">3D Movement</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/slope_sliding.png?v=20260513-2" alt="Slope sliding visualization">
+                        <figcaption class="media-caption">Slope Sliding</figcaption>
+                    </figure>
+                    <div class="visual-group-title">Rotational and Oscillatory Dynamics</div>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/circular_motion.png?v=20260513-2" alt="Circular motion visualization">
+                        <figcaption class="media-caption">Circular Motion</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/rotation.png?v=20260513-2" alt="Rotation visualization">
+                        <figcaption class="media-caption">Rotation</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/para_rotation.png?v=20260513-2" alt="Parabolic motion with rotation visualization">
+                        <figcaption class="media-caption">Parabolic + Rotation</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/damped_oscillation.png?v=20260513-2" alt="Damped oscillation visualization">
+                        <figcaption class="media-caption">Damped Oscillation</figcaption>
+                    </figure>
+                    <div class="visual-group-title">Scale and Non-Rigid Dynamics</div>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/size_changing.png?v=20260513-2" alt="Size changing visualization">
+                        <figcaption class="media-caption">Size Changing</figcaption>
+                    </figure>
+                    <figure class="media-card">
+                        <img src="static/figures/vis/deformation.png?v=20260513-2" alt="Deformation visualization">
+                        <figcaption class="media-caption">Deformation</figcaption>
+                    </figure>
+                </div>
+            </details>
+        </div>
+
+        <div class="section" id="results-section">
+            <h2>Main Results</h2>
+            <p>
+                LaWM is evaluated in two complementary regimes: physics-clean video prediction and RoboScape-style embodied robot interaction prediction. The first tests physical invariance across canonical dynamics; the second tests appearance, geometry, and action-conditioned scene evolution under clutter, occlusion, contact, and depth variation.
+            </p>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="metric">0.896<small>PIS-ax, Acceleration</small></div>
+                    <h3>Acceleration PIS</h3>
+                    <p>LaWM improves acceleration consistency over NewtonGen on the physics-clean benchmark.</p>
+                </div>
+                <div class="result-card">
+                    <div class="metric">0.944<small>PIS-ay, Parabolic Motion</small></div>
+                    <h3>Parabolic PIS-ay</h3>
+                    <p>Projectile motion remains closer to the expected gravity-driven physical quantity.</p>
+                </div>
+                <div class="result-card">
+                    <div class="metric">22.42<small>PSNR, RoboScape-style</small></div>
+                    <h3>Embodied PSNR</h3>
+                    <p>On RoboScape-style prediction, LaWM improves PSNR from 21.85 to 22.42.</p>
+                </div>
+            </div>
+
+            <h3>Table 1 Highlights: Physics-Clean Video Prediction</h3>
+            <p>
+                The full Table 1 reports all motion types and metrics. Representative rows below show where the DEL-defined transition improves physical invariance over NewtonGen, the strongest physics-oriented baseline.
+            </p>
+            <div class="table-wrap">
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th>Motion Type</th>
+                            <th>Metric ↑</th>
+                            <th>NewtonGen ↑</th>
+                            <th>LaWM ↑</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Acceleration</td>
+                            <td>PIS-ax higher better</td>
+                            <td>0.6568</td>
+                            <td class="best">0.8964</td>
+                            <td>better acceleration consistency</td>
+                        </tr>
+                        <tr>
+                            <td>Parabolic Motion</td>
+                            <td>PIS-ay higher better</td>
+                            <td>0.8189</td>
+                            <td class="best">0.9443</td>
+                            <td>better gravity-driven rollout</td>
+                        </tr>
+                        <tr>
+                            <td>Slope Sliding</td>
+                            <td>PIS-ax higher better</td>
+                            <td>0.6312</td>
+                            <td class="best">0.8524</td>
+                            <td>better inclined-plane dynamics</td>
+                        </tr>
+                        <tr>
+                            <td>Rotation</td>
+                            <td>PIS-omega higher better</td>
+                            <td>0.8838</td>
+                            <td class="best">0.9436</td>
+                            <td>better angular consistency</td>
+                        </tr>
+                        <tr>
+                            <td>Para. w/ Rotation</td>
+                            <td>PIS-vx higher better</td>
+                            <td>0.9446</td>
+                            <td class="best">0.9943</td>
+                            <td>better coupled motion</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Table 2: RoboScape-Style Embodied Prediction</h3>
+            <p>
+                LaWM improves over RoboScape on all reported appearance, geometry, and action-conditioned metrics. LPIPS and AbsRel are lower better; all other metrics are higher better.
+            </p>
+            <div class="table-wrap">
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>LPIPS ↓</th>
+                            <th>PSNR ↑</th>
+                            <th>AbsRel ↓</th>
+                            <th>delta1 ↑</th>
+                            <th>delta2 ↑</th>
+                            <th>APSNR ↑</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>IRASim</td>
+                            <td>0.6674</td>
+                            <td>11.5698</td>
+                            <td>0.6252</td>
+                            <td>0.5013</td>
+                            <td>0.7020</td>
+                            <td>0.0269</td>
+                        </tr>
+                        <tr>
+                            <td>iVideoGPT</td>
+                            <td>0.4963</td>
+                            <td>16.1236</td>
+                            <td>0.7586</td>
+                            <td>0.3480</td>
+                            <td>0.5795</td>
+                            <td>0.1144</td>
+                        </tr>
+                        <tr>
+                            <td>Genie</td>
+                            <td>0.1683</td>
+                            <td>19.7571</td>
+                            <td>0.4425</td>
+                            <td>0.5435</td>
+                            <td>0.7736</td>
+                            <td>1.9871</td>
+                        </tr>
+                        <tr>
+                            <td>CogVideoX</td>
+                            <td>0.2180</td>
+                            <td>17.5222</td>
+                            <td>0.5243</td>
+                            <td>0.6046</td>
+                            <td>0.7599</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>RoboScape</td>
+                            <td>0.1259</td>
+                            <td>21.8533</td>
+                            <td>0.3600</td>
+                            <td>0.6214</td>
+                            <td>0.8307</td>
+                            <td>3.3435</td>
+                        </tr>
+                        <tr class="best-row">
+                            <td>LaWM</td>
+                            <td class="best">0.1138</td>
+                            <td class="best">22.4176</td>
+                            <td class="best">0.0490</td>
+                            <td class="best">0.9494</td>
+                            <td class="best">0.9658</td>
+                            <td class="best">9.3043</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section" id="ablation-section">
+            <h2>Ablation and Diagnostics</h2>
+            <p>
+                The ablations isolate the role of LaWM's transition-level variational structure. The central comparison is against gradient-based trajectory refinement, which uses the learned action only to optimize a completed trajectory. LaWM instead uses the discrete Euler-Lagrange condition as the recursive transition rule.
+            </p>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="metric">0.888<small>Motion-balanced mPIS</small></div>
+                    <h3>Motion-Balanced mPIS</h3>
+                    <p>LaWM improves over GD refinement, which obtains 0.756.</p>
+                </div>
+                <div class="result-card">
+                    <div class="metric">14 / 17<small>PIS quantities</small></div>
+                    <h3>PIS Wins</h3>
+                    <p>LaWM wins on most physical invariance quantities in the refinement ablation.</p>
+                </div>
+                <div class="result-card">
+                    <div class="metric">0.028<small>Controlled drift</small></div>
+                    <h3>Energy Drift</h3>
+                    <p>In the controlled diagnostic, LaWM sharply reduces long-horizon energy drift.</p>
+                </div>
+            </div>
+
+            <div class="ablation-grid">
+                <figure class="media-card">
+                    <img src="static/figures/ablation/figure_state_space_long_horizon_audit.png" alt="State-space long-horizon audit">
+                    <figcaption class="media-caption">State-space long-horizon audit</figcaption>
+                </figure>
+                <figure class="media-card">
+                    <img src="static/figures/ablation/figure_visual_state_subset_audit.png" alt="Visual subset audit">
+                    <figcaption class="media-caption">Visual subset audit</figcaption>
+                </figure>
+                <figure class="media-card">
+                    <img src="static/figures/ablation/figure_controlled_structure_diagnostics_long500_neural_vs_lawm.png" alt="Neural transition versus LaWM diagnostic">
+                    <figcaption class="media-caption">Neural transition vs. LaWM</figcaption>
+                </figure>
+                <figure class="media-card">
+                    <img src="static/figures/ablation/figure_controlled_structure_diagnostics_long500_gd_vs_lawm.png" alt="GD refinement versus LaWM diagnostic">
+                    <figcaption class="media-caption">GD refinement vs. LaWM</figcaption>
+                </figure>
+            </div>
+
+            <h3>Controlled Latent Mechanism Diagnostic</h3>
+            <div class="table-wrap">
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Rollout Rule</th>
+                            <th>PIS@64 ↑</th>
+                            <th>Energy Drift ↓</th>
+                            <th>DEL Residual ↓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Neural transition</td>
+                            <td>unconstrained predictor</td>
+                            <td>0.906</td>
+                            <td>0.272</td>
+                            <td>1.06e-04</td>
+                        </tr>
+                        <tr>
+                            <td>GD refinement</td>
+                            <td>post-hoc trajectory optimization</td>
+                            <td>0.907</td>
+                            <td>0.266</td>
+                            <td>1.68e-05</td>
+                        </tr>
+                        <tr class="best-row">
+                            <td>LaWM</td>
+                            <td>DEL variational step</td>
+                            <td class="best">0.997</td>
+                            <td class="best">0.028</td>
+                            <td class="best">1.31e-08</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section" id="citation-section">
+            <h2>Citation</h2>
+            <p>If you find this work useful, please cite:</p>
+            <br>
+            <div class="citation-box">
+                <pre class="citation-text">@article{xiao2026lawm,
+  title={LaWM: Least Action World Models for Long-Horizon Physical Consistency from Visual Observations},
+  author={Xiao, Qixin and Ghaffari, Maani},
+  journal={arXiv preprint},
+  year={2026}
+}</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>License</h2>
+            <p>This project page follows the LaWM paper and associated releases. Please refer to the repository for license details when the code is released.</p>
+            <div class="license-content">
+                <a class="license-link" href="LaWM.pdf" target="_blank" rel="noopener">Read the LaWM Paper</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/main.js" defer></script>
+    <!-- <script src="static/js/trajectory-intuition.js" defer></script> -->
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!--
+Trajectory Intuition module is intentionally disabled in index.html.
+To restore it, paste this block back into the Method section and re-enable
+static/css/trajectory-intuition.css and static/js/trajectory-intuition.js.
+-->
+<div class="method-showcase trajectory-showcase" aria-label="Interactive trajectory drift scrubber">
+    <div class="method-showcase-header">
+        <div>
+            <h3 class="method-showcase-title">Trajectory Intuition</h3>
+            <p>A compact scrubber showing where baseline dynamics begin to drift.</p>
+        </div>
+        <p class="method-showcase-copy">A lightweight visual aid; the method pipeline below is the main explanation.</p>
+    </div>
+    <div class="trajectory-scrubber" data-trajectory-scrubber>
+        <div class="trajectory-stage">
+            <img class="trajectory-bg" src="static/figures/trajectory_scene_realistic.png" alt="Realistic rollout scene background">
+            <svg class="trajectory-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                    <clipPath id="trajectory-reveal">
+                        <rect data-trajectory-reveal x="0" y="0" width="44" height="100"></rect>
+                    </clipPath>
+                </defs>
+                <g clip-path="url(#trajectory-reveal)">
+                    <path class="trajectory-shadow trajectory-shadow-physical" d="M 10 79 C 30 70, 62 67, 90 76"></path>
+                    <path class="trajectory-shadow trajectory-shadow-baseline" d="M 10 79 C 31 70, 58 62, 90 51"></path>
+                    <path class="trajectory-path trajectory-ground" d="M 10 76 C 20 58, 28 48, 36 44 C 56 34, 75 47, 90 70"></path>
+                    <path class="trajectory-path trajectory-baseline" d="M 10 76 C 20 58, 28 48, 36 44 C 51 38, 65 27, 90 17"></path>
+                    <path class="trajectory-path trajectory-ours" d="M 10 76 C 20 58, 28 48, 36 44 C 56 34, 75 47, 90 70"></path>
+                    <circle class="trajectory-dot start" cx="10" cy="76" r="1.6"></circle>
+                    <circle class="trajectory-dot ours-dot" cx="36" cy="44" r="1.25"></circle>
+                    <circle class="trajectory-dot ours-dot" cx="90" cy="70" r="1.45"></circle>
+                    <circle class="trajectory-dot baseline-dot" cx="90" cy="17" r="1.45"></circle>
+                </g>
+            </svg>
+            <div class="trajectory-legend" aria-label="Trajectory legend">
+                <span><i class="legend-line ground"></i>Ground Truth</span>
+                <span><i class="legend-line ours"></i>LaWM</span>
+                <span><i class="legend-line baseline"></i>Baseline Drift</span>
+            </div>
+        </div>
+        <div class="trajectory-controls">
+            <input class="trajectory-range" type="range" min="0" max="500" value="220" step="1" aria-label="Rollout step scrubber" data-trajectory-range>
+            <div class="trajectory-step-readout">Step: <span data-trajectory-step>220</span> / 500</div>
+        </div>
+    </div>
+</div>
